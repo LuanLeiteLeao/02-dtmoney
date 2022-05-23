@@ -1,4 +1,4 @@
-<h1 align="center"><img alt="tdmoney" title="tdmoney" src="./github/logo.svg" height="50" /></h1>
+<h1 style="background:#5429cc" align="center"><img alt="tdmoney" title="tdmoney" src="./github/logo.svg" height="50" /></h1>
 
 <p align="center">Este projeto é uma gestor financeiro pessoal que controla as entradas e saidas</p>
 
