@@ -14,16 +14,16 @@ interface TransactionsProviderProps {
     children?: ReactNode
 }
 
-type ITransactionInput = Omit< ITransaction, 'id'|'createdAt'>
+type ITransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 
-interface  TransactionsContextData{
-    transactions:ITransaction[];
-    createTransaction:(transaction:ITransactionInput) =>void;
+interface TransactionsContextData {
+    transactions: ITransaction[];
+    createTransaction: (transaction: ITransactionInput) => void;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData)
 
-export function TransactionsProvider({children}:TransactionsProviderProps) {
+export function TransactionsProvider({ children }: TransactionsProviderProps) {
     const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
     useEffect(() => {
@@ -31,13 +31,22 @@ export function TransactionsProvider({children}:TransactionsProviderProps) {
             .then(reponse => setTransactions(reponse.data.transactions))
     }, [])
 
-    function createTransaction(transaction:ITransactionInput){
+    async function createTransaction(transactionInput: ITransactionInput) {
 
-        api.post('/transactions',transaction)
+        const response = await api.post('/transactions', {
+            ...transactionInput,createdAt: new Date()
+        })
+        const  {transaction}  = response.data
+     
+
+        setTransactions([
+            ...transactions,
+            transaction
+        ])
     }
 
     return (
-        <TransactionsContext.Provider value={{ transactions,createTransaction }}>
+        <TransactionsContext.Provider value={{ transactions, createTransaction }}>
             {children}
         </TransactionsContext.Provider>
     )
